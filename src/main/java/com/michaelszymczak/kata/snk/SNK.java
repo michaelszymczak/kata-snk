@@ -1,5 +1,7 @@
 package com.michaelszymczak.kata.snk;
 
+import com.michaelszymczak.kata.snk.commands.SendCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,20 +18,21 @@ public class SNK {
     this.timeProvider = timeProvider;
   }
 
-  public String run(String command) {
+  public String run(String input) {
 
-    if (command.contains("->")) {
-      String[] chunks = command.split("->");
+    SendCommand command = new SendCommand(input);
+
+    if (command.canHandle()) {
 
       messages.add(new Message()
-              .user(chunks[0].trim())
-              .content(chunks[1].trim())
+              .user(command.user())
+              .content(command.argument())
               .sentTimeMs(timeProvider.nowMs()));
 
       return "\n";
     } else {
       final WallLine wallLine = new WallLine(timeProvider);
-      String user = command.endsWith(" wall") ? command.replace(" wall", "").trim() : command.trim();
+      String user = input.endsWith(" wall") ? input.replace(" wall", "").trim() : input.trim();
 
       return messages.stream()
               .filter(message -> message.user().equals(user))
