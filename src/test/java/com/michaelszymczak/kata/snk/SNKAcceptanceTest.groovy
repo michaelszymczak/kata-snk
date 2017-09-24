@@ -32,23 +32,16 @@ class SNKAcceptanceTest extends Specification {
     output == "I love the weather today (6 minutes ago)\n" +
               "I repeat, I love the weather today (5 minutes ago)"
   }
-//
-//  def "should display only given user's wall"() {
-//    given:
-//    timeProvider.setNow(now.minusSeconds(1 * 60));
-//    snk.run("Alice -> I love the weather today")
-//    timeProvider.setNow(now.minusSeconds(2 * 60));
-//    snk.run("Bob -> Damn! We lost!")
-//    timeProvider.setNow(now);
-//
-//    when:
-//    String output = snk.run("Alice")
-//
-//    then:
-//    output == "I love the weather today (6 minutes ago)\n" +
-//            "I repeat, I love the weather today (5 minutes ago)"
-//  }
 
+  def "should display only given user's wall"() {
+    given:
+    snk.run("Alice -> I love the weather today")
+    snk.run("Bob -> Damn! We lost!")
+
+    expect:
+    snk.run("Alice") == "I love the weather today (0 minutes ago)";
+    snk.run("Bob") == "Damn! We lost! (0 minutes ago)";
+  }
 
   private void setTimeToMinutesAgo(int minutes) {
     timeProvider.setNow(now.minusSeconds(minutes * 60))

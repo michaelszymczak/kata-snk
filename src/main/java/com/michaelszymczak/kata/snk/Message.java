@@ -5,8 +5,17 @@ package com.michaelszymczak.kata.snk;
  */
 public class Message {
 
+  private String user;
   private String content;
   private long sentTimeMs;
+
+  public String user() {
+    return user;
+  }
+
+  public Message user(String user) {
+    this.user = user; return this;
+  }
 
   public String content() {
     return content;

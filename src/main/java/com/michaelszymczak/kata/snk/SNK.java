@@ -20,12 +20,18 @@ public class SNK {
 
     if (command.contains("->")) {
       String[] chunks = command.split("->");
-      messages.add(new Message().sentTimeMs(timeProvider.nowMs()).content(chunks[1].trim()));
+
+      messages.add(new Message()
+              .user(chunks[0].trim())
+              .content(chunks[1].trim())
+              .sentTimeMs(timeProvider.nowMs()));
+
       return "\n";
     } else {
       final WallLine wallLine = new WallLine(timeProvider);
 
       return messages.stream()
+              .filter(message -> message.user().equals(command.trim()))
               .map(wallLine::asString)
               .collect(Collectors.joining("\n"));
     }
