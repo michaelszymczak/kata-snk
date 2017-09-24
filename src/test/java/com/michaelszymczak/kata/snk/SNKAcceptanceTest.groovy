@@ -21,11 +21,9 @@ class SNKAcceptanceTest extends Specification {
 
   def "a user's wall contains a messages send to them"() {
     given:
-    timeProvider.setNow(now.minusSeconds(6 * 60));
-    snk.run("Alice -> I love the weather today")
-    timeProvider.setNow(now.minusSeconds(5 * 60));
-    snk.run("Alice -> I repeat, I love the weather today")
-    timeProvider.setNow(now);
+    setTimeToMinutesAgo(6); snk.run("Alice -> I love the weather today")
+    setTimeToMinutesAgo(5); snk.run("Alice -> I repeat, I love the weather today")
+    resetTime();
 
     when:
     String output = snk.run("Alice")
@@ -34,6 +32,29 @@ class SNKAcceptanceTest extends Specification {
     output == "I love the weather today (6 minutes ago)\n" +
               "I repeat, I love the weather today (5 minutes ago)"
   }
+//
+//  def "should display only given user's wall"() {
+//    given:
+//    timeProvider.setNow(now.minusSeconds(1 * 60));
+//    snk.run("Alice -> I love the weather today")
+//    timeProvider.setNow(now.minusSeconds(2 * 60));
+//    snk.run("Bob -> Damn! We lost!")
+//    timeProvider.setNow(now);
+//
+//    when:
+//    String output = snk.run("Alice")
+//
+//    then:
+//    output == "I love the weather today (6 minutes ago)\n" +
+//            "I repeat, I love the weather today (5 minutes ago)"
+//  }
 
 
+  private void setTimeToMinutesAgo(int minutes) {
+    timeProvider.setNow(now.minusSeconds(minutes * 60))
+  }
+
+  private void resetTime() {
+    timeProvider.setNow(now);
+  }
 }
