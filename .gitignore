@@ -1,6 +1,7 @@
 /.git
 /.mvn
 /build
+/target
 /.idea
 
 /*.iml
