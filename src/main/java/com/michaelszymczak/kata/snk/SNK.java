@@ -20,16 +20,11 @@ public class SNK {
 
   public String run(String input) {
 
-    SendCommand command = new SendCommand(input);
+    SendCommand command = new SendCommand(timeProvider, input);
 
     if (command.canHandle()) {
 
-      messages.add(new Message()
-              .user(command.user())
-              .content(command.argument())
-              .sentTimeMs(timeProvider.nowMs()));
-
-      return "\n";
+      return command.process(messages);
     } else {
       final WallLine wallLine = new WallLine(timeProvider);
       String user = input.endsWith(" wall") ? input.replace(" wall", "").trim() : input.trim();

@@ -1,5 +1,9 @@
 package com.michaelszymczak.kata.snk.commands;
 
+import com.michaelszymczak.kata.snk.Message;
+import com.michaelszymczak.kata.snk.TimeProvider;
+
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -7,9 +11,9 @@ import java.util.stream.Stream;
  */
 public interface Command {
 
-  static Command of(String input) {
-    return Stream.of(new SendCommand(input))
-            .filter(SendCommand::canHandle)
+  static Command of(TimeProvider timeProvider, String input) {
+    return Stream.of(new SendCommand(timeProvider, input), new WallCommand(input), new GetCommand(input))
+            .filter(Command::canHandle)
             .findFirst()
             .orElseThrow(RuntimeException::new);
   }
@@ -19,4 +23,6 @@ public interface Command {
   String user();
 
   String argument();
+
+  String process(List<Message> messages);
 }
