@@ -30,8 +30,8 @@ public class SNKAcceptanceTest extends Specification {
     String output = snk.run("Alice")
 
     then:
-    output == "I love the weather today (6 minutes ago)\n" +
-              "I repeat, I love the weather today (5 minutes ago)"
+    output == "I repeat, I love the weather today (5 minutes ago)\n" +
+              "I love the weather today (6 minutes ago)"
   }
 
   def "each user can see their own messages"() {
@@ -53,10 +53,10 @@ public class SNKAcceptanceTest extends Specification {
     snk.run("Bob -> qux")
 
     expect:
-    snk.run("Alice wall") == "foo (0 minutes ago)\n" +
-                             "bar (0 minutes ago)";
-    snk.run("Bob wall") == "baz (0 minutes ago)\n" +
-                             "qux (0 minutes ago)";
+    snk.run("Alice wall") == "bar (0 minutes ago)\n" +
+                             "foo (0 minutes ago)";
+    snk.run("Bob wall") == "qux (0 minutes ago)\n" +
+                             "baz (0 minutes ago)";
   }
 
   private void setTimeToMinutesAgo(int minutes) {

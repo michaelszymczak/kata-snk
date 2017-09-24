@@ -1,10 +1,9 @@
 package com.michaelszymczak.kata.snk.commands;
 
 import com.michaelszymczak.kata.snk.Message;
-import com.michaelszymczak.kata.snk.TimeProvider;
 import com.michaelszymczak.kata.snk.WallLine;
 
-import java.util.List;
+import java.util.Deque;
 import java.util.stream.Collectors;
 
 /**
@@ -36,7 +35,7 @@ public class WallCommand implements Command {
   }
 
   @Override
-  public String process(List<Message> messages) {
+  public String process(Deque<Message> messages) {
     return messages.stream()
             .filter(message -> message.user().equals(user()))
             .map(wallLine::asString)

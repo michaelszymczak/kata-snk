@@ -4,7 +4,7 @@ import com.michaelszymczak.kata.snk.Message;
 import com.michaelszymczak.kata.snk.TimeProvider;
 import com.michaelszymczak.kata.snk.WallLine;
 
-import java.util.List;
+import java.util.Deque;
 import java.util.stream.Stream;
 
 /**
@@ -26,5 +26,5 @@ public interface Command {
 
   String argument();
 
-  String process(List<Message> messages);
+  String process(Deque<Message> messages);
 }

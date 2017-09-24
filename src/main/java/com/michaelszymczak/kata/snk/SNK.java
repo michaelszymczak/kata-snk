@@ -2,15 +2,15 @@ package com.michaelszymczak.kata.snk;
 
 import com.michaelszymczak.kata.snk.commands.Command;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Created 24/09/17.
  */
 public class SNK {
 
-  private final List<Message> messages = new ArrayList<>();
+  private final Deque<Message> messages = new ArrayDeque<>();
   private final TimeProvider timeProvider;
 
   public SNK(TimeProvider timeProvider) {

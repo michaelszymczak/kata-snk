@@ -3,7 +3,7 @@ package com.michaelszymczak.kata.snk.commands;
 import com.michaelszymczak.kata.snk.Message;
 import com.michaelszymczak.kata.snk.TimeProvider;
 
-import java.util.List;
+import java.util.Deque;
 
 /**
  * Created 24/09/17.
@@ -36,8 +36,8 @@ public class SendCommand implements Command {
   }
 
   @Override
-  public String process(List<Message> messages) {
-    messages.add(new Message()
+  public String process(Deque<Message> messages) {
+    messages.addFirst(new Message()
             .user(user())
             .content(argument())
             .sentTimeMs(timeProvider.nowMs()));
