@@ -2,6 +2,7 @@ package com.michaelszymczak.kata.snk.commands;
 
 import com.michaelszymczak.kata.snk.Message;
 import com.michaelszymczak.kata.snk.TimeProvider;
+import com.michaelszymczak.kata.snk.WallLine;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -12,7 +13,8 @@ import java.util.stream.Stream;
 public interface Command {
 
   static Command of(TimeProvider timeProvider, String input) {
-    return Stream.of(new SendCommand(timeProvider, input), new WallCommand(input), new GetCommand(input))
+    final WallLine wallLine = new WallLine(timeProvider);
+    return Stream.of(new SendCommand(timeProvider, input), new WallCommand(wallLine, input), new GetCommand(wallLine, input))
             .filter(Command::canHandle)
             .findFirst()
             .orElseThrow(RuntimeException::new);

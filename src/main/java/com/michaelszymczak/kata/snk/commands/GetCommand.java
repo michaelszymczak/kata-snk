@@ -1,8 +1,11 @@
 package com.michaelszymczak.kata.snk.commands;
 
 import com.michaelszymczak.kata.snk.Message;
+import com.michaelszymczak.kata.snk.TimeProvider;
+import com.michaelszymczak.kata.snk.WallLine;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created 24/09/17.
@@ -10,9 +13,11 @@ import java.util.List;
 public class GetCommand implements Command {
 
   private final String input;
+  private final WallLine wallLine;
 
-  public GetCommand(String input) {
+  public GetCommand(WallLine wallLine, String input) {
     this.input = input;
+    this.wallLine = wallLine;
   }
 
   @Override
@@ -32,6 +37,9 @@ public class GetCommand implements Command {
 
   @Override
   public String process(List<Message> messages) {
-    return "";
+    return messages.stream()
+            .filter(message -> message.user().equals(user()))
+            .map(wallLine::asString)
+            .collect(Collectors.joining("\n"));
   }
 }

@@ -11,7 +11,7 @@ public class WallLine {
     this.timeProvider = timeProvider;
   }
 
-  String asString(Message message) {
+  public String asString(Message message) {
     return String.format("%s (%d minutes ago)", message.content(), timeProvider.minutesSince(message.sentTimeMs())); // TODO plural singular minutes formatting
   }
 }
