@@ -20,7 +20,7 @@ public class SNKAcceptanceTest extends Specification {
     snk.run("Alice wall") == ""
   }
 
-  def "a user can see messages with sending time"() {
+  def "a user can see messages with sending time with the most recent on top"() {
     given:
     setTimeToMinutesAgo(6); snk.run("Alice -> I love the weather today")
     setTimeToMinutesAgo(5); snk.run("Alice -> I repeat, I love the weather today")
@@ -53,10 +53,32 @@ public class SNKAcceptanceTest extends Specification {
     snk.run("Bob -> qux")
 
     expect:
-    snk.run("Alice wall") == "bar (0 minutes ago)\n" +
-                             "foo (0 minutes ago)";
-    snk.run("Bob wall") == "qux (0 minutes ago)\n" +
-                             "baz (0 minutes ago)";
+    snk.run("Alice wall") == "Alice - bar (0 minutes ago)\n" +
+                             "Alice - foo (0 minutes ago)";
+    snk.run("Bob wall") == "Bob - qux (0 minutes ago)\n" +
+                             "Bob - baz (0 minutes ago)";
+  }
+
+
+  def "one can see all messages of the followed users on the wall"() {
+    given:
+    snk.run("Alice -> foo")
+    snk.run("Alice -> bar")
+    snk.run("Bob -> baz")
+    snk.run("Charlie -> qux")
+    snk.run("Charlie follows Alice")
+    snk.run("Alice -> foo after following")
+    snk.run("Charlie -> qux after following")
+
+
+    expect:
+    snk.run("Charlie wall") == "" +
+            "Charlie - qux after following (0 minutes ago)\n" +
+            "Alice - foo after following (0 minutes ago)\n" +
+            "Charlie - qux (0 minutes ago)\n" +
+            "Alice - bar (0 minutes ago)\n" +
+            "Alice - foo (0 minutes ago)";
+    snk.run("Bob wall") == "Bob - baz (0 minutes ago)";
   }
 
   private void setTimeToMinutesAgo(int minutes) {

@@ -23,12 +23,14 @@ public class CommandTest extends Specification {
     cmd.argument() == expectedArgument
 
     where:
-    input              | expectedInstance | expectedUser | expectedArgument
-    "Alice -> foo bar" | SendCommand      | "Alice"      | "foo bar"
-    "Bob -> Baz"       | SendCommand      | "Bob"        | "Baz"
-    "Alice"            | GetCommand       | "Alice"      | ""
-    "Bob"              | GetCommand       | "Bob"        | ""
-    "Alice wall"       | WallCommand      | "Alice"      | ""
-    "Bob wall"         | WallCommand      | "Bob"        | ""
+    input                 | expectedInstance | expectedUser | expectedArgument
+    "Alice -> foo bar"    | SendCommand      | "Alice"      | "foo bar"
+    "Bob -> Baz"          | SendCommand      | "Bob"        | "Baz"
+    "Alice"               | GetCommand       | "Alice"      | ""
+    "Bob"                 | GetCommand       | "Bob"        | ""
+    "Alice wall"          | WallCommand      | "Alice"      | ""
+    "Bob wall"            | WallCommand      | "Bob"        | ""
+    "Alice follows Bob"   | FollowCommand    | "Alice"      | "Bob"
+    "Bob follows Charlie" | FollowCommand    | "Bob"        | "Charlie"
   }
 }

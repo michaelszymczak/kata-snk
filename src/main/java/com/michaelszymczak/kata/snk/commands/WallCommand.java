@@ -4,6 +4,8 @@ import com.michaelszymczak.kata.snk.Message;
 import com.michaelszymczak.kata.snk.WallLine;
 
 import java.util.Deque;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -35,10 +37,18 @@ public class WallCommand implements Command {
   }
 
   @Override
-  public String process(Deque<Message> messages) {
+  public String process(Map<String,Set<String>> follows, Deque<Message> messages) {
     return messages.stream()
-            .filter(message -> message.user().equals(user()))
-            .map(wallLine::asString)
+            .filter(message -> sameUser(message) || followedUser(follows, message))
+            .map(wallLine::asWallMessage)
             .collect(Collectors.joining("\n"));
+  }
+
+  private boolean sameUser(Message message) {
+    return message.user().equals(user());
+  }
+
+  private boolean followedUser(Map<String, Set<String>> follows, Message message) {
+    return follows.get(user()) != null && follows.get(user()).contains(message.user());
   }
 }

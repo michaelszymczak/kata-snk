@@ -4,6 +4,8 @@ import com.michaelszymczak.kata.snk.Message;
 import com.michaelszymczak.kata.snk.WallLine;
 
 import java.util.Deque;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -35,10 +37,10 @@ public class GetCommand implements Command {
   }
 
   @Override
-  public String process(Deque<Message> messages) {
+  public String process(Map<String,Set<String>> follows, Deque<Message> messages) {
     return messages.stream()
             .filter(message -> message.user().equals(user()))
-            .map(wallLine::asString)
+            .map(wallLine::asMessage)
             .collect(Collectors.joining("\n"));
   }
 }
