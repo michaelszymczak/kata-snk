@@ -29,9 +29,10 @@ public class SNK {
       return "\n";
     } else {
       final WallLine wallLine = new WallLine(timeProvider);
+      String user = command.endsWith(" wall") ? command.replace(" wall", "").trim() : command.trim();
 
       return messages.stream()
-              .filter(message -> message.user().equals(command.trim()))
+              .filter(message -> message.user().equals(user))
               .map(wallLine::asString)
               .collect(Collectors.joining("\n"));
     }

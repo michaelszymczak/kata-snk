@@ -44,6 +44,21 @@ class SNKAcceptanceTest extends Specification {
     snk.run("Bob") == "Damn! We lost! (0 minutes ago)";
   }
 
+
+  def "each user can see their own messages on their wall"() {
+    given:
+    snk.run("Alice -> foo")
+    snk.run("Alice -> bar")
+    snk.run("Bob -> baz")
+    snk.run("Bob -> qux")
+
+    expect:
+    snk.run("Alice wall") == "foo (0 minutes ago)\n" +
+                             "bar (0 minutes ago)";
+    snk.run("Bob wall") == "baz (0 minutes ago)\n" +
+                             "qux (0 minutes ago)";
+  }
+
   private void setTimeToMinutesAgo(int minutes) {
     timeProvider.setNow(now.minusSeconds(minutes * 60))
   }
