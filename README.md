@@ -74,7 +74,7 @@ Instructions
 
 ##  To run
 
-    mvn clean package && java -jar target/snk-0.1.0.jar
+    ./gradlew clean build shadowJar && java -jar build/libs/snk-all.jar
 
 ##  To exit
 

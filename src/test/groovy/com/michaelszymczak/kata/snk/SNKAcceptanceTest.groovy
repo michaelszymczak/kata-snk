@@ -8,7 +8,7 @@ import java.time.Instant
 /**
  * Created 24/09/17.
  */
-class SNKAcceptanceTest extends Specification {
+public class SNKAcceptanceTest extends Specification {
 
   private final Instant now = Instant.parse("2017-05-10T10:00:00.000Z");
   private final FakeTimeProvider timeProvider = new FakeTimeProvider(now);

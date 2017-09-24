@@ -8,7 +8,7 @@ import java.time.Instant
 /**
  * Created 24/09/17.
  */
-class CommandTest extends Specification {
+public class CommandTest extends Specification {
 
   private final TimeProvider timeProvider = new TimeProvider.FakeTimeProvider(Instant.now())
 
