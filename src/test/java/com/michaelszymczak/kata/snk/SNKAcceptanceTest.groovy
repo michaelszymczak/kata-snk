@@ -14,12 +14,13 @@ class SNKAcceptanceTest extends Specification {
   private final FakeTimeProvider timeProvider = new FakeTimeProvider(now);
   private final SNK snk = new SNK(timeProvider);
 
-  def "a user has an empty wall initially"() {
+  def "a user has an empty wall and no messages initially"() {
     expect:
     snk.run("Alice") == ""
+    snk.run("Alice wall") == ""
   }
 
-  def "a user's wall contains a messages send to them"() {
+  def "a user can see messages with sending time"() {
     given:
     setTimeToMinutesAgo(6); snk.run("Alice -> I love the weather today")
     setTimeToMinutesAgo(5); snk.run("Alice -> I repeat, I love the weather today")
@@ -33,7 +34,7 @@ class SNKAcceptanceTest extends Specification {
               "I repeat, I love the weather today (5 minutes ago)"
   }
 
-  def "should display only given user's wall"() {
+  def "each user can see their own messages"() {
     given:
     snk.run("Alice -> I love the weather today")
     snk.run("Bob -> Damn! We lost!")
